@@ -60,6 +60,9 @@
       gap: 1rem;
       margin-bottom: 1rem;
     }
+    .sub-category {
+        margin-left: 2rem;
+    }
     canvas {
         background-color: #333;
         padding: 1rem;
@@ -72,89 +75,249 @@
 </head>
 <body>
   <h1><i class="fa-solid fa-square-poll-vertical fa-icon"></i>AV Solution Scorecard</h1>
-  <p>Rate each category from 0 (poor) to 5 (excellent), and assign priority weight (1–5).</p>
+  <p>Rate each sub-category from 0 (poor) to 5 (excellent), and assign priority weight (1–5).</p>
 
   <form id="scorecardForm">
     <div class="section">
-      <h2><i class="fa-solid fa-shield-halved fa-icon"></i>Security Posture</h2>
-      <div class="form-group">
+      <h2><i class="fa-solid fa-shield-halved fa-icon"></i>Security</h2>
+      <div class="sub-category form-group">
         <div>
-          <label>Score:</label>
-          <input type="number" name="security_score" min="0" max="5" required />
+          <label>Credential handling:</label>
+          <input type="number" name="security_1_score" min="0" max="5" required />
         </div>
         <div>
           <label>Weight:</label>
-          <input type="number" name="security_weight" min="1" max="5" required />
+          <input type="number" name="security_1_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Access control:</label>
+          <input type="number" name="security_2_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="security_2_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Encryption support:</label>
+          <input type="number" name="security_3_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="security_3_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Patch management process:</label>
+          <input type="number" name="security_4_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="security_4_weight" min="1" max="5" required />
         </div>
       </div>
     </div>
 
     <div class="section">
       <h2><i class="fa-solid fa-server fa-icon"></i>High Availability</h2>
-      <div class="form-group">
+      <div class="sub-category form-group">
         <div>
-          <label>Score:</label>
-          <input type="number" name="ha_score" min="0" max="5" required />
+          <label>Single points of failure:</label>
+          <input type="number" name="ha_1_score" min="0" max="5" required />
         </div>
         <div>
           <label>Weight:</label>
-          <input type="number" name="ha_weight" min="1" max="5" required />
+          <input type="number" name="ha_1_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Failover/redundancy:</label>
+          <input type="number" name="ha_2_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="ha_2_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Power backup:</label>
+          <input type="number" name="ha_3_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="ha_3_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Link/path diversity:</label>
+          <input type="number" name="ha_4_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="ha_4_weight" min="1" max="5" required />
         </div>
       </div>
     </div>
 
     <div class="section">
-      <h2><i class="fa-solid fa-exchange-alt fa-icon"></i>Interoperability & Standards</h2>
-      <div class="form-group">
+      <h2><i class="fa-solid fa-exchange-alt fa-icon"></i>Interoperability</h2>
+      <div class="sub-category form-group">
         <div>
-          <label>Score:</label>
-          <input type="number" name="interop_score" min="0" max="5" required />
+          <label>Standards compliance (AES67, NMOS):</label>
+          <input type="number" name="interop_1_score" min="0" max="5" required />
         </div>
         <div>
           <label>Weight:</label>
-          <input type="number" name="interop_weight" min="1" max="5" required />
+          <input type="number" name="interop_1_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Vendor interop:</label>
+          <input type="number" name="interop_2_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="interop_2_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Protocol compatibility:</label>
+          <input type="number" name="interop_3_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="interop_3_weight" min="1" max="5" required />
         </div>
       </div>
     </div>
 
     <div class="section">
       <h2><i class="fa-solid fa-eye fa-icon"></i>Observability</h2>
-      <div class="form-group">
+      <div class="sub-category form-group">
         <div>
-          <label>Score:</label>
-          <input type="number" name="observability_score" min="0" max="5" required />
+          <label>Logging:</label>
+          <input type="number" name="observability_1_score" min="0" max="5" required />
         </div>
         <div>
           <label>Weight:</label>
-          <input type="number" name="observability_weight" min="1" max="5" required />
+          <input type="number" name="observability_1_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>SNMP/API support:</label>
+          <input type="number" name="observability_2_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="observability_2_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Metrics collection:</label>
+          <input type="number" name="observability_3_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="observability_3_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Alerts & monitoring hooks:</label>
+          <input type="number" name="observability_4_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="observability_4_weight" min="1" max="5" required />
         </div>
       </div>
     </div>
 
     <div class="section">
-      <h2><i class="fa-solid fa-wrench fa-icon"></i>Lifecycle & Patching</h2>
-      <div class="form-group">
+      <h2><i class="fa-solid fa-clock-o fa-icon"></i>Clocking & Sync</h2>
+      <div class="sub-category form-group">
         <div>
-          <label>Score:</label>
-          <input type="number" name="patching_score" min="0" max="5" required />
+          <label>PTP support:</label>
+          <input type="number" name="clocking_1_score" min="0" max="5" required />
         </div>
         <div>
           <label>Weight:</label>
-          <input type="number" name="patching_weight" min="1" max="5" required />
+          <input type="number" name="clocking_1_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Clock stability:</label>
+          <input type="number" name="clocking_2_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="clocking_2_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>Recovery behavior:</label>
+          <input type="number" name="clocking_3_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="clocking_3_weight" min="1" max="5" required />
         </div>
       </div>
     </div>
 
     <div class="section">
       <h2><i class="fa-solid fa-network-wired fa-icon"></i>Network Readiness</h2>
-      <div class="form-group">
+      <div class="sub-category form-group">
         <div>
-          <label>Score:</label>
-          <input type="number" name="network_score" min="0" max="5" required />
+          <label>Multicast handling:</label>
+          <input type="number" name="network_1_score" min="0" max="5" required />
         </div>
         <div>
           <label>Weight:</label>
-          <input type="number" name="network_weight" min="1" max="5" required />
+          <input type="number" name="network_1_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>QoS/DSCP marking:</label>
+          <input type="number" name="network_2_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="network_2_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>VLAN compatibility:</label>
+          <input type="number" name="network_3_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="network_3_weight" min="1" max="5" required />
+        </div>
+      </div>
+      <div class="sub-category form-group">
+        <div>
+          <label>IGMP/MDNS/DNS:</label>
+          <input type="number" name="network_4_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="network_4_weight" min="1" max="5" required />
         </div>
       </div>
     </div>
@@ -172,12 +335,28 @@
 
   <script>
     const fields = [
-      ['security', 'security_score', 'security_weight', 'Security Posture'],
-      ['ha', 'ha_score', 'ha_weight', 'High Availability'],
-      ['interop', 'interop_score', 'interop_weight', 'Interoperability & Standards'],
-      ['observability', 'observability_score', 'observability_weight', 'Observability'],
-      ['patching', 'patching_score', 'patching_weight', 'Lifecycle & Patching'],
-      ['network', 'network_score', 'network_weight', 'Network Readiness']
+      { key: 'security_1', label: 'Security: Credential handling' },
+      { key: 'security_2', label: 'Security: Access control' },
+      { key: 'security_3', label: 'Security: Encryption support' },
+      { key: 'security_4', label: 'Security: Patch management process' },
+      { key: 'ha_1', label: 'HA: Single points of failure' },
+      { key: 'ha_2', label: 'HA: Failover/redundancy' },
+      { key: 'ha_3', label: 'HA: Power backup' },
+      { key: 'ha_4', label: 'HA: Link/path diversity' },
+      { key: 'interop_1', label: 'Interop: Standards compliance' },
+      { key: 'interop_2', label: 'Interop: Vendor interop' },
+      { key: 'interop_3', label: 'Interop: Protocol compatibility' },
+      { key: 'observability_1', label: 'Obs: Logging' },
+      { key: 'observability_2', label: 'Obs: SNMP/API support' },
+      { key: 'observability_3', label: 'Obs: Metrics collection' },
+      { key: 'observability_4', label: 'Obs: Alerts & monitoring hooks' },
+      { key: 'clocking_1', label: 'Clocking: PTP support' },
+      { key: 'clocking_2', label: 'Clocking: Clock stability' },
+      { key: 'clocking_3', label: 'Clocking: Recovery behavior' },
+      { key: 'network_1', label: 'Network: Multicast handling' },
+      { key: 'network_2', label: 'Network: QoS/DSCP marking' },
+      { key: 'network_3', label: 'Network: VLAN compatibility' },
+      { key: 'network_4', label: 'Network: IGMP/MDNS/DNS' }
     ];
 
     let myRadarChart = null;
@@ -189,9 +368,9 @@
       const labels = [];
       let allInputsFilled = true;
 
-      fields.forEach(([prefix, scoreKey, weightKey, label]) => {
-        const scoreInput = document.querySelector(`[name=${scoreKey}]`);
-        const weightInput = document.querySelector(`[name=${weightKey}]`);
+      fields.forEach(field => {
+        const scoreInput = document.querySelector(`[name=${field.key}_score]`);
+        const weightInput = document.querySelector(`[name=${field.key}_weight]`);
         
         if (!scoreInput.value || !weightInput.value) {
           allInputsFilled = false;
@@ -204,7 +383,7 @@
         totalWeight += weight;
         
         scores.push(score);
-        labels.push(label);
+        labels.push(field.label);
       });
 
       if (allInputsFilled && totalWeight > 0) {
@@ -237,7 +416,7 @@
             r: {
               angleLines: { color: 'rgba(255, 255, 255, 0.3)' },
               grid: { color: 'rgba(255, 255, 255, 0.3)' },
-              pointLabels: { color: '#fff', font: { size: 14 } },
+              pointLabels: { color: '#fff', font: { size: 12 } },
               ticks: {
                 beginAtZero: true,
                 max: 5,
@@ -282,6 +461,7 @@
       }
     }
 
+    // Set up event listeners for live updates
     const form = document.getElementById('scorecardForm');
     form.addEventListener('input', updateScorecard);
 
