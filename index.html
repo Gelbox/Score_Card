@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AV Solution Scorecard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #1c1c1c;
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1, h2 {
+      color: #00ffcc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    select, input {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      background-color: #333;
+      border: 1px solid #555;
+      color: #fff;
+      border-radius: 4px;
+      width: calc(100% - 1rem);
+    }
+    input[type="number"] {
+        width: 60px;
+    }
+    .section {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background-color: #2c2c2c;
+      border-radius: 8px;
+    }
+    .result {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #333;
+      border-left: 5px solid #00ffcc;
+      border-radius: 8px;
+    }
+    .form-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      background-color: #00ffcc;
+      color: #000;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #00ccb3;
+    }
+    canvas {
+        background-color: #2c2c2c;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    .fa-icon {
+        color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+  <h1><i class="fa-solid fa-square-poll-vertical fa-icon"></i>AV Solution Scorecard</h1>
+  <p>Rate each category from 0 (poor) to 5 (excellent), and assign priority weight (1–5).</p>
+
+  <form id="scorecardForm">
+    <div class="section">
+      <h2><i class="fa-solid fa-shield-halved fa-icon"></i>Security Posture</h2>
+      <div class="form-group">
+        <div>
+          <label>Score:</label>
+          <input type="number" name="security_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="security_weight" min="1" max="5" required />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><i class="fa-solid fa-server fa-icon"></i>High Availability</h2>
+      <div class="form-group">
+        <div>
+          <label>Score:</label>
+          <input type="number" name="ha_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="ha_weight" min="1" max="5" required />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><i class="fa-solid fa-exchange-alt fa-icon"></i>Interoperability & Standards</h2>
+      <div class="form-group">
+        <div>
+          <label>Score:</label>
+          <input type="number" name="interop_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="interop_weight" min="1" max="5" required />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><i class="fa-solid fa-eye fa-icon"></i>Observability</h2>
+      <div class="form-group">
+        <div>
+          <label>Score:</label>
+          <input type="number" name="observability_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="observability_weight" min="1" max="5" required />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><i class="fa-solid fa-wrench fa-icon"></i>Lifecycle & Patching</h2>
+      <div class="form-group">
+        <div>
+          <label>Score:</label>
+          <input type="number" name="patching_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="patching_weight" min="1" max="5" required />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><i class="fa-solid fa-network-wired fa-icon"></i>Network Readiness</h2>
+      <div class="form-group">
+        <div>
+          <label>Score:</label>
+          <input type="number" name="network_score" min="0" max="5" required />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="number" name="network_weight" min="1" max="5" required />
+        </div>
+      </div>
+    </div>
+
+    <button type="submit">Calculate Score</button>
+  </form>
+
+  <div class="result" id="result" style="display:none">
+    <h2><i class="fa-solid fa-calculator fa-icon"></i>Overall Score</h2>
+    <p id="scoreOutput"></p>
+  </div>
+  
+  <div class="section" id="chartSection" style="display:none">
+    <h2><i class="fa-solid fa-chart-line fa-icon"></i>Score Visualization</h2>
+    <canvas id="radarChart"></canvas>
+  </div>
+
+  <script>
+    document.getElementById('scorecardForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const fields = [
+        ['security', 'security_score', 'security_weight', 'Security Posture'],
+        ['ha', 'ha_score', 'ha_weight', 'High Availability'],
+        ['interop', 'interop_score', 'interop_weight', 'Interoperability & Standards'],
+        ['observability', 'observability_score', 'observability_weight', 'Observability'],
+        ['patching', 'patching_score', 'patching_weight', 'Lifecycle & Patching'],
+        ['network', 'network_score', 'network_weight', 'Network Readiness']
+      ];
+
+      let totalWeightedScore = 0;
+      let totalWeight = 0;
+      const scores = [];
+      const labels = [];
+
+      fields.forEach(([prefix, scoreKey, weightKey, label]) => {
+        const score = parseFloat(document.querySelector(`[name=${scoreKey}]`).value);
+        const weight = parseFloat(document.querySelector(`[name=${weightKey}]`).value);
+        totalWeightedScore += score * weight;
+        totalWeight += weight;
+
+        scores.push(score);
+        labels.push(label);
+      });
+
+      const overallScore = (totalWeightedScore / totalWeight).toFixed(2);
+      document.getElementById('scoreOutput').textContent = `Weighted Score: ${overallScore} / 5`;
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('chartSection').style.display = 'block';
+
+      // --- Radar Chart Logic ---
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      const chartData = {
+        labels: labels,
+        datasets: [{
+          label: 'Solution Score',
+          data: scores,
+          backgroundColor: 'rgba(0, 255, 204, 0.2)',
+          borderColor: '#00ffcc',
+          borderWidth: 2,
+          pointBackgroundColor: '#00ffcc',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 1,
+          pointRadius: 5
+        }]
+      };
+
+      const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            angleLines: { color: 'rgba(255, 255, 255, 0.3)' },
+            grid: { color: 'rgba(255, 255, 255, 0.3)' },
+            pointLabels: { color: '#fff', font: { size: 14 } },
+            ticks: {
+              beginAtZero: true,
+              max: 5,
+              stepSize: 1,
+              backdropColor: 'transparent',
+              color: '#fff'
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.r !== null) {
+                  label += context.parsed.r;
+                }
+                return label;
+              }
+            }
+          }
+        }
+      };
+
+      // Destroy old chart if it exists to prevent overlap
+      if (window.myRadarChart) {
+        window.myRadarChart.destroy();
+      }
+
+      window.myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: chartData,
+        options: chartOptions
+      });
+    });
+  </script>
+</body>
+</html>
