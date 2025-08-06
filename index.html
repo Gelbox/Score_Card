@@ -12,7 +12,7 @@
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: #1c1c1c;
+      background-color: #212121;
       color: #fff;
       margin: 0;
       padding: 2rem;
@@ -26,6 +26,7 @@
     label {
       display: block;
       margin-bottom: 0.25rem;
+      color: #fff;
     }
     select, input {
       display: block;
@@ -43,7 +44,7 @@
     .section {
       margin-bottom: 2rem;
       padding: 1rem;
-      background-color: #2c2c2c;
+      background-color: #333;
       border-radius: 8px;
     }
     .result {
@@ -59,21 +60,8 @@
       gap: 1rem;
       margin-bottom: 1rem;
     }
-    button {
-      background-color: #00ffcc;
-      color: #000;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #00ccb3;
-    }
     canvas {
-        background-color: #2c2c2c;
+        background-color: #333;
         padding: 1rem;
         border-radius: 8px;
     }
@@ -170,8 +158,6 @@
         </div>
       </div>
     </div>
-
-    <button type="submit">Calculate Score</button>
   </form>
 
   <div class="result" id="result" style="display:none">
@@ -185,102 +171,122 @@
   </div>
 
   <script>
-    document.getElementById('scorecardForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+    const fields = [
+      ['security', 'security_score', 'security_weight', 'Security Posture'],
+      ['ha', 'ha_score', 'ha_weight', 'High Availability'],
+      ['interop', 'interop_score', 'interop_weight', 'Interoperability & Standards'],
+      ['observability', 'observability_score', 'observability_weight', 'Observability'],
+      ['patching', 'patching_score', 'patching_weight', 'Lifecycle & Patching'],
+      ['network', 'network_score', 'network_weight', 'Network Readiness']
+    ];
 
-      const fields = [
-        ['security', 'security_score', 'security_weight', 'Security Posture'],
-        ['ha', 'ha_score', 'ha_weight', 'High Availability'],
-        ['interop', 'interop_score', 'interop_weight', 'Interoperability & Standards'],
-        ['observability', 'observability_score', 'observability_weight', 'Observability'],
-        ['patching', 'patching_score', 'patching_weight', 'Lifecycle & Patching'],
-        ['network', 'network_score', 'network_weight', 'Network Readiness']
-      ];
+    let myRadarChart = null;
 
+    function updateScorecard() {
       let totalWeightedScore = 0;
       let totalWeight = 0;
       const scores = [];
       const labels = [];
+      let allInputsFilled = true;
 
       fields.forEach(([prefix, scoreKey, weightKey, label]) => {
-        const score = parseFloat(document.querySelector(`[name=${scoreKey}]`).value);
-        const weight = parseFloat(document.querySelector(`[name=${weightKey}]`).value);
+        const scoreInput = document.querySelector(`[name=${scoreKey}]`);
+        const weightInput = document.querySelector(`[name=${weightKey}]`);
+        
+        if (!scoreInput.value || !weightInput.value) {
+          allInputsFilled = false;
+        }
+
+        const score = parseFloat(scoreInput.value) || 0;
+        const weight = parseFloat(weightInput.value) || 0;
+        
         totalWeightedScore += score * weight;
         totalWeight += weight;
-
+        
         scores.push(score);
         labels.push(label);
       });
 
-      const overallScore = (totalWeightedScore / totalWeight).toFixed(2);
-      document.getElementById('scoreOutput').textContent = `Weighted Score: ${overallScore} / 5`;
-      document.getElementById('result').style.display = 'block';
-      document.getElementById('chartSection').style.display = 'block';
+      if (allInputsFilled && totalWeight > 0) {
+        const overallScore = (totalWeightedScore / totalWeight).toFixed(2);
+        document.getElementById('scoreOutput').textContent = `Weighted Score: ${overallScore} / 5`;
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('chartSection').style.display = 'block';
 
-      // --- Radar Chart Logic ---
-      const ctx = document.getElementById('radarChart').getContext('2d');
-      const chartData = {
-        labels: labels,
-        datasets: [{
-          label: 'Solution Score',
-          data: scores,
-          backgroundColor: 'rgba(0, 255, 204, 0.2)',
-          borderColor: '#00ffcc',
-          borderWidth: 2,
-          pointBackgroundColor: '#00ffcc',
-          pointBorderColor: '#fff',
-          pointBorderWidth: 1,
-          pointRadius: 5
-        }]
-      };
+        // --- Radar Chart Logic ---
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        const chartData = {
+          labels: labels,
+          datasets: [{
+            label: 'Solution Score',
+            data: scores,
+            backgroundColor: 'rgba(0, 255, 204, 0.2)',
+            borderColor: '#00ffcc',
+            borderWidth: 2,
+            pointBackgroundColor: '#00ffcc',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 1,
+            pointRadius: 5
+          }]
+        };
 
-      const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          r: {
-            angleLines: { color: 'rgba(255, 255, 255, 0.3)' },
-            grid: { color: 'rgba(255, 255, 255, 0.3)' },
-            pointLabels: { color: '#fff', font: { size: 14 } },
-            ticks: {
-              beginAtZero: true,
-              max: 5,
-              stepSize: 1,
-              backdropColor: 'transparent',
-              color: '#fff'
+        const chartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(255, 255, 255, 0.3)' },
+              grid: { color: 'rgba(255, 255, 255, 0.3)' },
+              pointLabels: { color: '#fff', font: { size: 14 } },
+              ticks: {
+                beginAtZero: true,
+                max: 5,
+                stepSize: 1,
+                backdropColor: 'transparent',
+                color: '#fff'
+              }
             }
-          }
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                let label = context.dataset.label || '';
-                if (label) {
-                  label += ': ';
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed.r !== null) {
+                    label += context.parsed.r;
+                  }
+                  return label;
                 }
-                if (context.parsed.r !== null) {
-                  label += context.parsed.r;
-                }
-                return label;
               }
             }
           }
+        };
+
+        if (myRadarChart) {
+          myRadarChart.data = chartData;
+          myRadarChart.update();
+        } else {
+          myRadarChart = new Chart(ctx, {
+            type: 'radar',
+            data: chartData,
+            options: chartOptions
+          });
         }
-      };
-
-      // Destroy old chart if it exists to prevent overlap
-      if (window.myRadarChart) {
-        window.myRadarChart.destroy();
+      } else {
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('chartSection').style.display = 'none';
       }
+    }
 
-      window.myRadarChart = new Chart(ctx, {
-        type: 'radar',
-        data: chartData,
-        options: chartOptions
-      });
-    });
+    const form = document.getElementById('scorecardForm');
+    form.addEventListener('input', updateScorecard);
+
+    // Initial call to set up the chart if any values are pre-filled
+    updateScorecard();
   </script>
 </body>
 </html>
