@@ -96,8 +96,7 @@
     .form-group > div { /* Style for the individual score/weight containers */
         display: flex;
         flex-direction: column;
-        flex-grow: 1; /* Allow them to grow */
-        flex-basis: 0; /* Allow them to shrink */
+        flex: 1 1 45%; /* Allow them to grow/shrink, start at roughly half width */
     }
     .sub-category {
         margin-left: 2rem;
@@ -111,7 +110,8 @@
         height: auto; /* Let aspect ratio handle height */
     }
     .section canvas { /* Specific styling for individual section charts */
-        flex: 0 0 250px; /* Don't grow, don't shrink, fixed width */
+        flex: 1; /* Allow it to grow/shrink */
+        min-width: 200px; /* Minimum width for the chart */
         max-width: 100%; /* Ensure it doesn't overflow */
         height: auto; /* Maintain aspect ratio */
         margin-top: 0; /* Remove top margin when placed next to inputs */
@@ -558,7 +558,7 @@
     function updateScorecard() {
       let totalWeightedScore = 0;
       let totalWeight = 0;
-      let allInputsFilled = true;
+      let anyCategoryHasValidInputs = false; // New flag to check if any category has valid inputs for aggregate
 
       const aggregateCategoryScores = [];
       const aggregateCategoryLabels = [];
@@ -597,16 +597,13 @@
           const score = parseFloat(scoreInput ? scoreInput.value : '') || 0;
           const weight = parseFloat(weightInput ? weightInput.value : '') || 0;
 
-          // Only consider inputs that have both score and weight filled
-          if (scoreInput.value !== '' && weightInput.value !== '') {
+          // Only consider inputs that have both valid score and weight
+          if (scoreInput.value !== '' && weightInput.value !== '' && !isNaN(score) && !isNaN(weight) && score >=0 && score <=5 && weight >=1 && weight <=5) {
             categoryHasValidInputs = true;
             categorySubScores.push(score);
             categorySubLabels.push(subCategory.label);
             categoryWeightedScore += score * weight;
             categoryWeight += weight;
-          } else {
-            // If any sub-category input is empty, the overall form is not fully filled
-            allInputsFilled = false; 
           }
         });
 
@@ -620,6 +617,7 @@
                 categorySubScores,
                 categoryRadarCharts[mainCategory.id]
             );
+            anyCategoryHasValidInputs = true; // Mark that at least one category has valid inputs
         } else {
             categoryCanvas.style.display = 'none';
             if (categoryRadarCharts[mainCategory.id]) {
@@ -636,7 +634,7 @@
       });
 
       // Update overall score and aggregate chart
-      if (allInputsFilled && totalWeight > 0) {
+      if (anyCategoryHasValidInputs && totalWeight > 0) { // Condition changed to anyCategoryHasValidInputs
         const overallScore = (totalWeightedScore / totalWeight).toFixed(2);
         document.getElementById('scoreOutput').textContent = `Weighted Score: ${overallScore} / 5`;
         document.getElementById('result').style.display = 'block';
